@@ -44,19 +44,35 @@ body {
 }
 
 /* NAVBAR */
+:root {
+  /* Navbar custom properties (palette-driven) */
+  --navbar-bg: var(--primary);
+  --navbar-shadow: 0 4px 20px 0 rgba(16, 42, 67, 0.11), 0 1.5px 7px 0 rgba(59,130,246,0.06);
+  --navbar-height: 62px;
+  --navbar-link: var(--text-light);
+  --navbar-link-inactive: var(--text-secondary);
+  --navbar-link-active-bg: var(--secondary); /* travelgenie secondary color */
+  --navbar-link-active-color: var(--text-light);
+  --navbar-link-hover: var(--accent);
+  --navbar-active-pill-radius: 22px;
+}
 .navbar {
-  background-color: var(--navbar-bg);
+  background: var(--navbar-bg);
   color: var(--navbar-text);
-  padding: 16px 0;
+  box-shadow: var(--navbar-shadow);
+  padding: 0;
+  height: var(--navbar-height);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--primary);
+  justify-content: center;
+  border-bottom: none;
   position: fixed;
   top: 0;
   width: 100%;
   box-sizing: border-box;
   z-index: 100;
+  min-height: var(--navbar-height);
+  transition: box-shadow 0.17s;
 }
 
 .logo {
@@ -67,12 +83,103 @@ body {
   gap: 8px;
   color: var(--navbar-text);
   letter-spacing: 0.02em;
+  height: 100%;
+  padding-left: 2px;
 }
 
 .logo-symbol {
   color: var(--accent);
-  font-size: 1.4em;
+  font-size: 1.7em;
   font-weight: bold;
+  margin-right: 3px;
+}
+
+/* Navbar links section */
+.navbar-links {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  height: 100%;
+  margin-right: -6px;
+}
+
+/* NAVBAR LINK STYLES for modern visual hierarchy */
+.navbar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 46px;
+  min-width: 94px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--navbar-link-inactive);
+  background: transparent;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  border-radius: var(--navbar-active-pill-radius);
+  margin: 0 2px;
+  padding: 0 19px;
+  transition: 
+    color 0.15s cubic-bezier(.4,0,.2,1),
+    background 0.17s,
+    box-shadow 0.16s;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.navbar-link:visited {
+  color: var(--navbar-link-inactive);
+}
+
+.navbar-link:hover,
+.navbar-link:focus-visible {
+  color: var(--navbar-link-hover);
+  background: rgba(255,255,255,0.025);
+  text-decoration: none;
+  outline: none;
+}
+
+.navbar-link.active,
+.navbar-link[aria-current="page"] {
+  background: var(--navbar-link-active-bg);
+  color: var(--navbar-link-active-color);
+  font-weight: 600;
+  box-shadow: 0 2px 15px 0 rgba(234,97,97,0.11);
+  position: relative;
+  z-index: 2;
+}
+
+.navbar-link .navbar-active-indicator {
+  /* The underline/highlight pill for the active link */
+  content: "";
+  display: block;
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  bottom: 6px;
+  height: 5px;
+  border-radius: 11px;
+  background: linear-gradient(90deg, var(--navbar-link-active-bg) 70%, var(--accent) 100%);
+  opacity: 0.43;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .navbar-links {
+    gap: 0;
+  }
+  .navbar-link {
+    min-width: 0;
+    font-size: 0.97rem;
+    padding: 0 10px;
+    height: 42px;
+  }
+  .logo {
+    font-size: 1.07rem;
+    gap: 6px;
+  }
 }
 
 .container {
