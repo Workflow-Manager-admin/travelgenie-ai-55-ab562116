@@ -11,6 +11,7 @@ function ItineraryPage() {
     to: "",
     days: "",
     startDate: "",
+    endDate: "", // NEW FIELD
   });
   const [loading, setLoading] = useState(false);
   const [itineraryText, setItineraryText] = useState(""); // AI raw output
@@ -30,13 +31,14 @@ function ItineraryPage() {
   const AMA_API_SECRET = '0FMhmIHl7JHsbFpy'
 
   // PUBLIC_INTERFACE
-  async function fetchItineraryCohere({ from, to, days, startDate }) {
-    // Construct a very specific prompt for numbered, day-by-day output that includes the trip start date for clarity
+  async function fetchItineraryCohere({ from, to, days, startDate, endDate }) {
+    // Construct a very specific prompt for numbered, day-by-day output that includes both trip start and end dates for clarity
     const prompt =
 `Create a detailed travel itinerary for this trip:
 From: ${from}
 To: ${to}
 Start date: ${startDate}
+End date: ${endDate}
 Trip length: ${days} days
 
 For each day, write a heading 'Day X:' and then list the main activities or recommendations (separated by newlines). Be concise and practical, and include tips or must-see places if relevant.
@@ -48,7 +50,7 @@ Day 2:
 - Activity
 ...
 Continue day by day for the requested number of days.
-Always take the actual trip start date into account.`;
+Always take the actual trip start and end dates into account.`;
 
     const res = await fetch("https://api.cohere.ai/v1/generate", {
       method: "POST",
@@ -177,7 +179,18 @@ Always take the actual trip start date into account.`;
     setLoading(true);
     try {
       if (!COHERE_KEY) throw new Error("AI API key is missing (REACT_APP_COHERE_KEY).");
-      if (!form.from.trim() || !form.to.trim() || !form.days.trim() || !form.startDate.trim()) throw new Error("All fields required.");
+      if (
+        !form.from.trim() ||
+        !form.to.trim() ||
+        !form.days.trim() ||
+        !form.startDate.trim() ||
+        !form.endDate.trim()
+      ) {
+        throw new Error("All fields required.");
+      }
+      if (form.endDate < form.startDate) {
+        throw new Error("End Date cannot be earlier than Start Date.");
+      }
       const text = await fetchItineraryCohere(form);
       setItineraryText(text.trim());
       setItineraryByDay(parseItineraryByDay(text));
@@ -278,19 +291,34 @@ Always take the actual trip start date into account.`;
             />
           </label>
         </div>
-        <label style={{ width: "100%" }}>
-          Start Date:<br />
-          <input
-            name="startDate"
-            type="date"
-            value={form.startDate}
-            onChange={handleChange}
-            required
-            className="input"
-            style={{ maxWidth: 200 }}
-            min={new Date().toISOString().split('T')[0]}
-          />
-        </label>
+        <div style={{ display: "flex", gap: 8, width: "100%" }}>
+          <label style={{ flex: 1 }}>
+            Start Date:<br />
+            <input
+              name="startDate"
+              type="date"
+              value={form.startDate}
+              onChange={handleChange}
+              required
+              className="input"
+              style={{ maxWidth: 200 }}
+              min={new Date().toISOString().split('T')[0]}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            End Date:<br />
+            <input
+              name="endDate"
+              type="date"
+              value={form.endDate}
+              onChange={handleChange}
+              required
+              className="input"
+              style={{ maxWidth: 200 }}
+              min={form.startDate || new Date().toISOString().split('T')[0]}
+            />
+          </label>
+        </div>
         <label style={{ width: "100%" }}>
           Number of Days:<br />
           <input
@@ -322,6 +350,15 @@ Always take the actual trip start date into account.`;
         >
           <div className="subtitle" style={{ marginBottom: 10 }}>
             AI-Generated Itinerary:
+          </div>
+          <div style={{ 
+            marginBottom: 16,
+            color: "var(--text-secondary)",
+            fontSize: ".98rem"
+          }}>
+            <b>From:</b> {form.from} <b>To:</b> {form.to} <br/>
+            <b>Start Date:</b> {form.startDate} <b>End Date:</b> {form.endDate} <br/>
+            <b>Number of Days:</b> {form.days}
           </div>
           {itineraryByDay.map(({ day, activities }) => (
             <div
