@@ -6,6 +6,8 @@ function ItineraryPage() {
    * User provides 'From', 'To', 'Start Date', and 'End Date'; Cohere API called for day-by-day itinerary;
    * Results are clearly separated by day; real-time flight results shown below (if available).
    */
+
+  // Form state
   const [form, setForm] = useState({
     from: "",
     to: "",
@@ -17,8 +19,9 @@ function ItineraryPage() {
   const [itineraryByDay, setItineraryByDay] = useState([]); // Parsed for per-day display
   const [error, setError] = useState("");
 
-  // Flight API state
-  const [flightOptions, setFlightOptions] = useState([]);
+  // Flight API states (dual: outbound & return)
+  const [outboundFlights, setOutboundFlights] = useState([]);
+  const [returnFlights, setReturnFlights] = useState([]);
   const [flightsLoading, setFlightsLoading] = useState(false);
   const [flightsError, setFlightsError] = useState("");
   const [authToken, setAuthToken] = useState("");
@@ -26,7 +29,7 @@ function ItineraryPage() {
 
   // COHERE KEY (should use .env in real deployment)
   const COHERE_KEY = 'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv'
-  // Amadeus flight API keys (fetch from .env if present, fallback for demo)
+  // Amadeus flight API keys (from env or fallback for demo)
   const AMA_API_KEY = process.env.REACT_APP_AMADEUS_API_KEY || 'I3Qf2ShydSGU7hDgLDG3IAl3hHO5QJwt'
   const AMA_API_SECRET = process.env.REACT_APP_AMADEUS_API_SECRET || '0FMhmIHl7JHsbFpy'
 
@@ -161,31 +164,58 @@ Use the given trip start and end dates to determine length.`;
     return data.data || [];
   };
 
-  // Handles user explicit search for flights
+  // PUBLIC_INTERFACE
+  // Dual Outbound + Return flight search logic
   const handleFlightSearch = async () => {
     setFlightsError("");
     setFlightsLoading(true);
     setShowFlights(false);
-    setFlightOptions([]);
+    setOutboundFlights([]);
+    setReturnFlights([]);
     try {
-      if (!form.from.trim() || !form.to.trim() || !form.startDate.trim()) {
-        throw new Error("Enter From, To, and Start Date to search flights.");
+      if (
+        !form.from.trim() ||
+        !form.to.trim() ||
+        !form.startDate.trim() ||
+        !form.endDate.trim()
+      ) {
+        throw new Error("Enter From, To, Start Date, and End Date to search roundtrip flights.");
       }
       let token = authToken;
       if (!token) {
         token = await fetchAmadeusAuth();
         setAuthToken(token);
       }
-      // Fetch flights with selected date & locations
-      const flights = await fetchAmadeusFlights({ from: form.from, to: form.to, departureDate: form.startDate });
-      setFlightOptions(flights);
+      // Fetch outbound flights (from → to, Start Date) and return (to → from, End Date) in parallel
+      const [outbound, returning] = await Promise.all([
+        fetchAmadeusFlights({
+          from: form.from,
+          to: form.to,
+          departureDate: form.startDate,
+        }),
+        fetchAmadeusFlights({
+          from: form.to,
+          to: form.from,
+          departureDate: form.endDate,
+        }),
+      ]);
+      setOutboundFlights(outbound);
+      setReturnFlights(returning);
       setShowFlights(true);
-      if (flights.length === 0) {
-        setFlightsError("No flights found for those inputs. Try different cities or date.");
+
+      if (outbound.length === 0 && returning.length === 0) {
+        setFlightsError(
+          "No outbound or return flights found for those dates. Try different cities or dates."
+        );
+      } else if (outbound.length === 0) {
+        setFlightsError("No outbound flights found for the selected start date.");
+      } else if (returning.length === 0) {
+        setFlightsError("No return flights found for the selected end date.");
       }
     } catch (err) {
       setFlightsError(err.message || "Error fetching flights.");
-      setFlightOptions([]);
+      setOutboundFlights([]);
+      setReturnFlights([]);
       setShowFlights(true);
     } finally {
       setFlightsLoading(false);
@@ -243,21 +273,24 @@ Use the given trip start and end dates to determine length.`;
           }
           // Use new token for this run
           const flights = await fetchAmadeusFlights({ from: form.from, to: form.to });
-          setFlightOptions(flights);
+          // This is a *default preview*, we clear when user explicitly searches for roundtrip
+          setOutboundFlights(flights);
+          setReturnFlights([]);
         } catch (err) {
           setFlightsError(
             err.message ||
               "No flights found or error fetching. Note: free Amadeus test API may not return all city pairs."
           );
-          setFlightOptions([]);
+          setOutboundFlights([]);
+          setReturnFlights([]);
         } finally {
           setFlightsLoading(false);
         }
       } else {
-        setFlightOptions([]);
+        setOutboundFlights([]);
+        setReturnFlights([]);
       }
     }
-
     loadFlights();
     // eslint-disable-next-line
   }, [form.from, form.to, AMA_API_KEY, AMA_API_SECRET]); // Only runs on relevant param changes
@@ -354,26 +387,28 @@ Use the given trip start and end dates to determine length.`;
       </form>
       <button
         className="btn btn-large btn-secondary"
-        style={{marginTop: 18, marginBottom: 8, width: "100%"}}
+        style={{ marginTop: 18, marginBottom: 8, width: "100%" }}
         onClick={handleFlightSearch}
         disabled={
           flightsLoading ||
           !form.from.trim() ||
           !form.to.trim() ||
-          !form.startDate.trim()
+          !form.startDate.trim() ||
+          !form.endDate.trim()
         }
         type="button"
       >
         {flightsLoading ? "Searching flights..." : "Search Flights"}
       </button>
       {(flightsError && showFlights) && <div style={{ color: "tomato", margin: "10px 0", fontWeight: 600 }}>{flightsError}</div>}
-
-      {showFlights && !flightsLoading && flightOptions && flightOptions.length > 0 && (
+      
+      {/* Outbound flights */}
+      {showFlights && !flightsLoading && outboundFlights && outboundFlights.length > 0 && (
         <div
           style={{
             marginTop: 18,
-            marginBottom: 24,
-            background: "rgba(255,255,255,0.08)",
+            marginBottom: 18,
+            background: "rgba(255,255,255,0.085)",
             borderRadius: 12,
             padding: "16px 13px",
             border: "1.5px solid var(--border-color)",
@@ -382,55 +417,116 @@ Use the given trip start and end dates to determine length.`;
             gap: "13px"
           }}
         >
-          <div
-            className="subtitle"
+          <div className="subtitle"
             style={{
-              color: "var(--secondary)",
-              fontWeight: 600,
-              marginBottom: 6,
-              fontSize: "1.13rem",
-              letterSpacing: "0.01em",
-            }}
-          >
-            Flights on {form.startDate}:
+              color: "var(--secondary)", fontWeight: 600,
+              marginBottom: 6, fontSize: "1.13rem", letterSpacing: "0.01em",
+            }}>
+            Outbound Flights ({form.from} → {form.to}) on {form.startDate}:
           </div>
-          <div style={{display: "flex", flexWrap: "wrap", gap: 14}}>
-          {flightOptions.map((f, i) => {
-            const info = formatFlight(f);
-            return (
-              <div
-                key={i}
-                style={{
-                  border: "1.5px solid var(--border-color)",
-                  background: "white",
-                  borderRadius: 10,
-                  minWidth: 260,
-                  maxWidth: "49%",
-                  boxSizing: "border-box",
-                  padding: "13px 15px",
-                  boxShadow: "0 1px 8px 0 rgba(59,130,246,0.08)",
-                  flex: "1 1 260px"
-                }}
-              >
-                <div style={{fontWeight: 600, marginBottom: 7, color: "var(--secondary)"}}>
-                  {info.from} <span style={{fontWeight:400}}>&rarr;</span> {info.to}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
+            {outboundFlights.map((f, i) => {
+              const info = formatFlight(f);
+              return (
+                <div
+                  key={i}
+                  style={{
+                    border: "1.5px solid var(--border-color)",
+                    background: "white",
+                    borderRadius: 10,
+                    minWidth: 260,
+                    maxWidth: "49%",
+                    boxSizing: "border-box",
+                    padding: "13px 15px",
+                    boxShadow: "0 1px 8px 0 rgba(59,130,246,0.08)",
+                    flex: "1 1 260px"
+                  }}
+                >
+                  <div style={{ fontWeight: 600, marginBottom: 7, color: "var(--secondary)" }}>
+                    {info.from} <span style={{ fontWeight: 400 }}>&rarr;</span> {info.to}
+                  </div>
+                  <div style={{ fontWeight: 500 }}>
+                    Airline:{" "}
+                    <span style={{ color: "#3B82F6" }}>{info.airline}</span>
+                  </div>
+                  <div style={{ margin: "3px 0", fontSize: ".97rem" }}>
+                    <b>Departure:</b> {info.departure.replace("T", " ").slice(0, 16)}
+                    <br />
+                    <b>Arrival:</b> {info.arrival.replace("T", " ").slice(0, 16)}
+                  </div>
+                  <div style={{ fontSize: ".97rem" }}><b>Duration:</b> {info.duration.replace("PT", "")}</div>
+                  <div style={{ marginTop: 5, fontWeight: 600, color: "#F59E0B" }}>
+                    {info.currency} {info.price}
+                  </div>
                 </div>
-                <div style={{fontWeight: 500}}>
-                  Airline:{" "}
-                  <span style={{color: "#3B82F6"}}>{info.airline}</span>
+              );
+            })}
+          </div>
+          <div style={{ marginTop: 7, color: "var(--text-secondary)", fontSize: ".97rem" }}>
+            Flights powered by Amadeus API. Prices/sample data for 1 adult.
+          </div>
+        </div>
+      )}
+
+      {/* Return flights */}
+      {showFlights && !flightsLoading && returnFlights && returnFlights.length > 0 && (
+        <div
+          style={{
+            marginTop: 0,
+            marginBottom: 24,
+            background: "rgba(255,255,255,0.088)",
+            borderRadius: 12,
+            padding: "16px 13px",
+            border: "1.5px solid var(--border-color)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "13px"
+          }}
+        >
+          <div className="subtitle"
+            style={{
+              color: "var(--secondary)", fontWeight: 600,
+              marginBottom: 6, fontSize: "1.13rem", letterSpacing: "0.01em",
+            }}>
+            Return Flights ({form.to} → {form.from}) on {form.endDate}:
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
+            {returnFlights.map((f, i) => {
+              const info = formatFlight(f);
+              return (
+                <div
+                  key={i}
+                  style={{
+                    border: "1.5px solid var(--border-color)",
+                    background: "white",
+                    borderRadius: 10,
+                    minWidth: 260,
+                    maxWidth: "49%",
+                    boxSizing: "border-box",
+                    padding: "13px 15px",
+                    boxShadow: "0 1px 8px 0 rgba(59,130,246,0.08)",
+                    flex: "1 1 260px"
+                  }}
+                >
+                  <div style={{ fontWeight: 600, marginBottom: 7, color: "var(--secondary)" }}>
+                    {info.from} <span style={{ fontWeight: 400 }}>&rarr;</span> {info.to}
+                  </div>
+                  <div style={{ fontWeight: 500 }}>
+                    Airline:{" "}
+                    <span style={{ color: "#3B82F6" }}>{info.airline}</span>
+                  </div>
+                  <div style={{ margin: "3px 0", fontSize: ".97rem" }}>
+                    <b>Departure:</b> {info.departure.replace("T", " ").slice(0, 16)}
+                    <br />
+                    <b>Arrival:</b> {info.arrival.replace("T", " ").slice(0, 16)}
+                  </div>
+                  <div style={{ fontSize: ".97rem" }}><b>Duration:</b> {info.duration.replace("PT", "")}</div>
+                  <div style={{ marginTop: 5, fontWeight: 600, color: "#F59E0B" }}>
+                    {info.currency} {info.price}
+                  </div>
                 </div>
-                <div style={{margin: "3px 0", fontSize: ".97rem"}}>
-                  <b>Departure:</b> {info.departure.replace("T", " ").slice(0, 16)}
-                  <br />
-                  <b>Arrival:</b> {info.arrival.replace("T", " ").slice(0, 16)}
-                </div>
-                <div style={{fontSize: ".97rem"}}><b>Duration:</b> {info.duration.replace("PT", "")}</div>
-                <div style={{marginTop: 5, fontWeight: 600, color: "#F59E0B"}}>
-                  {info.currency} {info.price}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
           <div style={{ marginTop: 7, color: "var(--text-secondary)", fontSize: ".97rem" }}>
             Flights powered by Amadeus API. Prices/sample data for 1 adult.
