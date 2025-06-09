@@ -3,43 +3,49 @@ import React, { useState, useEffect } from "react";
 // PUBLIC_INTERFACE
 function ItineraryPage() {
   /**
-   * User provides trip info; Cohere API called using env var for key; AI itinerary displayed.
-   * Also fetches real-time flight options via Amadeus API under the itinerary.
+   * User provides 'From', 'To', and 'Number of Days'; Cohere API called for day-by-day itinerary;
+   * Results are clearly separated by day; real-time flight results shown below (if available).
    */
   const [form, setForm] = useState({
     from: "",
     to: "",
-    startDate: "",
-    endDate: "",
-    budget: "",
-    preferences: ""
+    days: "",
   });
   const [loading, setLoading] = useState(false);
-  const [itinerary, setItinerary] = useState(null);
+  const [itineraryText, setItineraryText] = useState(""); // AI raw output
+  const [itineraryByDay, setItineraryByDay] = useState([]); // Parsed for per-day display
   const [error, setError] = useState("");
 
-  // Amadeus API integration state
+  // Flight API state
   const [flightOptions, setFlightOptions] = useState([]);
   const [flightsLoading, setFlightsLoading] = useState(false);
   const [flightsError, setFlightsError] = useState("");
   const [authToken, setAuthToken] = useState("");
 
-  const COHERE_KEY = 'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv'//process.env.REACT_APP_COHERE_KEY;
+  // COHERE KEY (should use .env in real deployment)
+  const COHERE_KEY = 'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv'
+  // Amadeus flight API keys for demo (should use secrets)
+  const AMA_API_KEY = 'I3Qf2ShydSGU7hDgLDG3IAl3hHO5QJwt'
+  const AMA_API_SECRET = '0FMhmIHl7JHsbFpy'
 
-  // In real deployment these should come from .env, here we use demonstration strings or process.env fallback
-  const AMA_API_KEY = process.env.REACT_APP_AMADEUS_API_KEY || "";
-  const AMA_API_SECRET = process.env.REACT_APP_AMADEUS_API_SECRET || "";
+  // PUBLIC_INTERFACE
+  async function fetchItineraryCohere({ from, to, days }) {
+    // Construct a very specific prompt for numbered, day-by-day output
+    const prompt =
+`Create a detailed travel itinerary for this trip:
+From: ${from}
+To: ${to}
+Trip length: ${days} days
 
-  async function fetchItineraryCohere(formData) {
-    // Cohere "generate" API endpoint (generation, not chat)
-    const prompt = `Create a personalized, day-by-day travel itinerary for a trip with these details:
-From: ${formData.from}
-To: ${formData.to}
-Start date: ${formData.startDate}
-End date: ${formData.endDate}
-Budget: ${formData.budget || "Not specified"}
-Preferences: ${formData.preferences || "None"}
-Please provide recommendations for each day, with tips if possible.`;
+For each day, write a heading 'Day X:' and then list the main activities or recommendations (separated by newlines). Be concise and practical, and include tips or must-see places if relevant.
+Example format:
+Day 1:
+- Arrive
+- Activity
+Day 2:
+- Activity
+...
+Continue day by day for the requested number of days.`;
 
     const res = await fetch("https://api.cohere.ai/v1/generate", {
       method: "POST",
@@ -57,15 +63,51 @@ Please provide recommendations for each day, with tips if possible.`;
     });
     if (!res.ok) throw new Error("Failed to generate itinerary. API error.");
     const data = await res.json();
-    // The result under .generations[0].text
     return data?.generations?.[0]?.text || "No result.";
+  }
+
+  // Parse itinerary string into [{day, activities:[]}, ...]
+  function parseItineraryByDay(itineraryText) {
+    if (!itineraryText) return [];
+    const lines = itineraryText.split(/\r?\n/);
+    const result = [];
+    let currentDay = null;
+    let currentActivities = [];
+    let dayRegex = /^Day (\d+)[:：]?/i;
+    lines.forEach((line) => {
+      const match = line.match(dayRegex);
+      if (match) {
+        // New day heading
+        if (currentDay || currentActivities.length > 0) {
+          result.push({
+            day: currentDay,
+            activities: currentActivities,
+          });
+        }
+        currentDay = `Day ${match[1]}`;
+        currentActivities = [];
+      } else if (line.trim().length) {
+        // Remove leading dash/bullet/number and trim
+        const activity = line.replace(/^[\-\•\*\d\.\s]+/, "").trim();
+        if (activity) {
+          currentActivities.push(activity);
+        }
+      }
+    });
+    // Push the last day
+    if (currentDay || currentActivities.length > 0) {
+      result.push({
+        day: currentDay,
+        activities: currentActivities,
+      });
+    }
+    // Remove empty days
+    return result.filter(d => d.day && d.activities.length > 0);
   }
 
   // PUBLIC_INTERFACE
   async function fetchAmadeusAuth() {
-    /**
-     * Authorize with Amadeus API to get a bearer token.
-     */
+    /** Authorize with Amadeus API to get a bearer token. */
     const res = await fetch("https://test.api.amadeus.com/v1/security/oauth2/token", {
       method: "POST",
       headers: {
@@ -78,28 +120,36 @@ Please provide recommendations for each day, with tips if possible.`;
     return data.access_token;
   }
 
+  // Get correct IATA airport code using Amadeus Location API
+  const getAirportCode = async (cityName, token) => {
+    const res = await fetch(
+      `https://test.api.amadeus.com/v1/reference-data/locations?keyword=${cityName}&subType=CITY,AIRPORT`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const data = await res.json();
+    return data.data?.[0]?.iataCode || cityName.slice(0, 3).toUpperCase();
+  };
+
   // PUBLIC_INTERFACE
-  async function fetchAmadeusFlights({ from, to, startDate }) {
-    /**
-     * Fetch flight offers using the Amadeus Flight Offers Search API.
-     */
-    // Many airports share city names; in a real build, use IATA code lookup or a resolver!
-    // For the demo, try the first 3 letters (best effort)
-    const origin = from.length >= 3 ? from.slice(0, 3).toUpperCase() : from.toUpperCase();
-    const destination = to.length >= 3 ? to.slice(0, 3).toUpperCase() : to.toUpperCase();
-
-    // Using Amadeus's /v2/shopping/flight-offers endpoint, basic params
-    const url = `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&departureDate=${startDate}&adults=1&currencyCode=USD&max=6`;
-
+  async function fetchAmadeusFlights({ from, to }) {
+    let token = authToken;
+    if (!token) {
+      token = await fetchAmadeusAuth();
+      setAuthToken(token);
+    }
+    const origin = await getAirportCode(from, token);
+    const destination = await getAirportCode(to, token);
+    // Use today's date for flight search if 'days' missing
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const url = `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&departureDate=${todayStr}&adults=1&currencyCode=USD&max=6`;
     const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(
-        err.errors?.[0]?.detail || "Could not retrieve flights. Check airport codes and API credentials."
+        err.errors?.[0]?.detail ||
+        "Could not retrieve flights. Check airport codes and API credentials."
       );
     }
     const data = await res.json();
@@ -107,18 +157,25 @@ Please provide recommendations for each day, with tips if possible.`;
   }
 
   const handleChange = (e) => {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setForm(f => ({
+      ...f,
+      [name]: name === "days" ? (value.replace(/[^0-9]/g,"").slice(0,2) || "") : value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setItinerary(null);
+    setItineraryText("");
+    setItineraryByDay([]);
     setLoading(true);
     try {
       if (!COHERE_KEY) throw new Error("AI API key is missing (REACT_APP_COHERE_KEY).");
+      if (!form.from.trim() || !form.to.trim() || !form.days.trim()) throw new Error("All fields required.");
       const text = await fetchItineraryCohere(form);
-      setItinerary(text.trim());
+      setItineraryText(text.trim());
+      setItineraryByDay(parseItineraryByDay(text));
     } catch (err) {
       setError(err.message || "Failed to generate itinerary.");
     } finally {
@@ -126,17 +183,10 @@ Please provide recommendations for each day, with tips if possible.`;
     }
   };
 
-  // Side effect: fetch flights AFTER both cities and startDate chosen, and after auth, when any change.
+  // Side effect: fetch flights when from/to are filled in (don't require date anymore)
   useEffect(() => {
     async function loadFlights() {
-      // Only search when both cities & startDate chosen
-      if (
-        form.from.trim().length >= 3 &&
-        form.to.trim().length >= 3 &&
-        form.startDate &&
-        AMA_API_KEY &&
-        AMA_API_SECRET
-      ) {
+      if (form.from.trim().length >= 3 && form.to.trim().length >= 3 && AMA_API_KEY && AMA_API_SECRET) {
         setFlightsError("");
         setFlightsLoading(true);
         try {
@@ -146,7 +196,7 @@ Please provide recommendations for each day, with tips if possible.`;
             setAuthToken(token);
           }
           // Use new token for this run
-          const flights = await fetchAmadeusFlights({ from: form.from, to: form.to, startDate: form.startDate });
+          const flights = await fetchAmadeusFlights({ from: form.from, to: form.to });
           setFlightOptions(flights);
         } catch (err) {
           setFlightsError(
@@ -164,11 +214,9 @@ Please provide recommendations for each day, with tips if possible.`;
 
     loadFlights();
     // eslint-disable-next-line
-  }, [form.from, form.to, form.startDate, AMA_API_KEY, AMA_API_SECRET]); // Only runs on relevant param changes
+  }, [form.from, form.to, AMA_API_KEY, AMA_API_SECRET]); // Only runs on relevant param changes
 
   function formatFlight(f) {
-    // Format a single flight offer details. Uses first itinerary/segment/price
-    // Structure: https://developers.amadeus.com/self-service-apis/apis-docs/overview/summary/flights
     const out = f.itineraries?.[0]?.segments?.[0];
     const inArr = f.itineraries?.[0]?.segments?.[f.itineraries[0].segments.length - 1];
     return {
@@ -225,50 +273,19 @@ Please provide recommendations for each day, with tips if possible.`;
             />
           </label>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <label style={{ flex: 1 }}>
-            Start Date:<br />
-            <input
-              type="date"
-              name="startDate"
-              value={form.startDate}
-              onChange={handleChange}
-              required
-              className="input"
-            />
-          </label>
-          <label style={{ flex: 1 }}>
-            End Date:<br />
-            <input
-              type="date"
-              name="endDate"
-              value={form.endDate}
-              onChange={handleChange}
-              required
-              className="input"
-            />
-          </label>
-        </div>
-        <label>
-          Budget (USD):<br />
+        <label style={{ width: "100%" }}>
+          Number of Days:<br />
           <input
-            name="budget"
+            name="days"
             type="number"
-            value={form.budget}
+            value={form.days}
             onChange={handleChange}
-            placeholder="Optional"
-            min="0"
+            min={1}
+            max={30}
+            required
             className="input"
-          />
-        </label>
-        <label>
-          Preferences:<br />
-          <input
-            name="preferences"
-            value={form.preferences}
-            onChange={handleChange}
-            placeholder="e.g., museums, nature, food"
-            className="input"
+            placeholder="e.g., 5"
+            style={{ maxWidth: 150 }}
           />
         </label>
         <button className="btn btn-large" type="submit" disabled={loading}>
@@ -276,24 +293,43 @@ Please provide recommendations for each day, with tips if possible.`;
         </button>
       </form>
       {error && <div style={{ color: "tomato", marginTop: 12 }}>{error}</div>}
-      {itinerary && (
+      {itineraryByDay.length > 0 && (
         <div
           style={{
             marginTop: 36,
             background: "rgba(255,255,255,0.05)",
             borderRadius: 8,
             padding: 22,
-            whiteSpace: "pre-line"
           }}
         >
           <div className="subtitle" style={{ marginBottom: 10 }}>
             AI-Generated Itinerary:
           </div>
-          <div>{itinerary}</div>
+          {itineraryByDay.map(({ day, activities }) => (
+            <div
+              key={day}
+              style={{
+                marginBottom: 22,
+                borderLeft: "4px solid var(--accent)",
+                paddingLeft: 11,
+                background: "rgba(234, 97, 97,0.05)",
+                borderRadius: 6,
+              }}
+            >
+              <div style={{ fontWeight: 600, fontSize: "1.04rem", marginBottom: 4 }}>
+                {day}
+              </div>
+              <ul style={{ margin: "0 0 0 10px", padding: 0, color: "var(--text-secondary)" }}>
+                {activities.map((act, idx) => (
+                  <li key={idx} style={{marginBottom: 2}}>{act}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       )}
       {/* FLIGHT OPTIONS SECTION */}
-      {(form.from && form.to && form.startDate) && (
+      {(form.from && form.to) && (
         <div
           style={{
             marginTop: 38,
