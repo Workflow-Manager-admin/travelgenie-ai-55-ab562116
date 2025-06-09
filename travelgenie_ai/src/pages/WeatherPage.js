@@ -104,7 +104,7 @@ function WeatherPage() {
               onChange={e=>setCity(e.target.value)}
               required
               placeholder="e.g., Rome"
-              style={inputStyle}
+              className="input"
             />
           </label>
         </div>
@@ -155,18 +155,6 @@ function WeatherPage() {
     </div>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  padding: "8px 12px",
-  fontSize: ".96rem",
-  borderRadius: "4px",
-  border: "1px solid var(--border-color)",
-  marginTop: "3px",
-  marginBottom: "2px",
-  background: "#191c23",
-  color: "var(--text-color)"
-};
 
 const thStyle = {
   padding: "4px 8px", textAlign: "left", fontWeight: 500

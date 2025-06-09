@@ -63,26 +63,61 @@ function ItineraryPage() {
       }}>
         <label>
           Destination:<br/>
-          <input name="destination" value={form.destination} onChange={handleChange} required
-                 style={inputStyle} autoFocus placeholder="e.g., Paris" />
+          <input
+            name="destination"
+            value={form.destination}
+            onChange={handleChange}
+            required
+            className="input"
+            autoFocus
+            placeholder="e.g., Paris"
+          />
         </label>
         <div style={{display:"flex", gap:8}}>
           <label style={{flex: 1}}>
             Start Date:<br/>
-            <input type="date" name="startDate" value={form.startDate} onChange={handleChange} required style={inputStyle} />
+            <input
+              type="date"
+              name="startDate"
+              value={form.startDate}
+              onChange={handleChange}
+              required
+              className="input"
+            />
           </label>
           <label style={{flex: 1}}>
             End Date:<br/>
-            <input type="date" name="endDate" value={form.endDate} onChange={handleChange} required style={inputStyle} />
+            <input
+              type="date"
+              name="endDate"
+              value={form.endDate}
+              onChange={handleChange}
+              required
+              className="input"
+            />
           </label>
         </div>
         <label>
           Budget (USD):<br/>
-          <input name="budget" type="number" value={form.budget} onChange={handleChange} placeholder="Optional" style={inputStyle} min="0" />
+          <input
+            name="budget"
+            type="number"
+            value={form.budget}
+            onChange={handleChange}
+            placeholder="Optional"
+            min="0"
+            className="input"
+          />
         </label>
         <label>
           Preferences:<br/>
-          <input name="preferences" value={form.preferences} onChange={handleChange} placeholder="e.g., museums, nature, food" style={inputStyle} />
+          <input
+            name="preferences"
+            value={form.preferences}
+            onChange={handleChange}
+            placeholder="e.g., museums, nature, food"
+            className="input"
+          />
         </label>
         <button className="btn btn-large" type="submit" disabled={loading}>
           {loading ? "Generating..." : "Generate Itinerary"}
@@ -105,17 +140,5 @@ function ItineraryPage() {
   );
 }
 
-// Minimal inline style for text inputs (demo, as per requirements)
-const inputStyle = {
-  width: "100%",
-  padding: "8px 10px",
-  fontSize: ".95rem",
-  borderRadius: "4px",
-  border: "1px solid var(--border-color)",
-  marginTop: "3px",
-  marginBottom: "2px",
-  background: "#191c23",
-  color: "var(--text-color)"
-};
 
 export default ItineraryPage;

@@ -93,7 +93,7 @@ function ChatPage() {
           type="text"
           value={input}
           onChange={e=>setInput(e.target.value)}
-          style={inputStyle}
+          className="input"
           placeholder="Type your travel question..."
           disabled={loading}
           autoFocus
@@ -108,15 +108,5 @@ function ChatPage() {
     </div>
   );
 }
-
-const inputStyle = {
-  flex: 1,
-  padding: "10px 14px",
-  fontSize: "1rem",
-  borderRadius: "4px",
-  border: "1px solid var(--border-color)",
-  background: "#191c23",
-  color: "var(--text-color)"
-};
 
 export default ChatPage;

@@ -262,30 +262,80 @@ body {
 }
 
 /* INPUTS / FORMS */
+
+/* Consistent form field style for input, select, textarea */
+.input,
 input[type="text"], input[type="number"], input[type="date"], input[type="email"], 
 textarea, select {
   font-family: inherit;
-  padding: 10px 14px;
+  width: 100%;
+  padding: 11px 15px;
   font-size: 1rem;
-  border-radius: 5px;
-  border: 1px solid var(--input-border);
+  border-radius: 7px;
+  border: 1.5px solid var(--input-border);
   background: var(--input-bg);
   color: var(--text-dark);
   outline: none;
   margin-top: 3px;
   margin-bottom: 2px;
-  transition: border-color 0.17s, box-shadow 0.17s;
+  box-sizing: border-box;
+  transition: 
+    border-color 0.17s, 
+    box-shadow 0.17s,
+    background 0.14s,
+    color 0.13s;
+  /* High contrast for placeholder */
+  &::placeholder {
+    color: var(--text-secondary);
+    opacity: 1;
+  }
 }
 
+/* Focus and active: clear accent, thick border, obvious ring for keyboards */
+.input:focus, .input:active,
 input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus,
-input[type="email"]:focus, textarea:focus, select:focus {
+input[type="email"]:focus, textarea:focus, select:focus,
+input[type="text"]:active, input[type="number"]:active, input[type="date"]:active,
+input[type="email"]:active, textarea:active, select:active {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px var(--primary)22;
+  background: #fff; /* ensure light highlight even on light bg */
+  color: var(--text-dark);
+  box-shadow: 0 0 0 3px var(--accent-light), 0 1px 6px 0 rgba(59,130,246,0.09);
+  outline: none !important;
 }
 
-input[disabled], textarea[disabled], select[disabled] {
-  opacity: 0.7;
+/* Accessible: visible keyboard focus only */
+.input:focus-visible,
+input[type="text"]:focus-visible, input[type="number"]:focus-visible,
+input[type="date"]:focus-visible, input[type="email"]:focus-visible, 
+textarea:focus-visible, select:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--accent-light), 0 2px 12px 0 rgba(16,42,67,0.07);
+  outline: none;
+}
+
+input[disabled], textarea[disabled], select[disabled], .input[disabled] {
+  opacity: 0.55;
+  background: #E5E7EB;
+  color: var(--text-secondary);
   cursor: not-allowed;
+}
+
+select.input, select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='gray' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M10 14a1 1 0 01-.707-.293l-4-4a1 1 0 111.414-1.414L10 11.586l3.293-3.293a1 1 0 111.414 1.414l-4 4A1 1 0 0110 14z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-position: right 0.75em top 50%;
+  background-size: 1.1em;
+  padding-right: 2.4em;
+}
+
+/* Textarea: allow resize but clean border on focus */
+textarea.input, textarea {
+  min-height: 84px;
+  resize: vertical;
 }
 
 /* Utility Classes for Forms */
