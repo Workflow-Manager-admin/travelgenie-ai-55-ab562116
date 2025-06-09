@@ -98,21 +98,32 @@ body {
 .section-card, .card {
   background: var(--card-bg);
   color: var(--text-dark);
-  border-radius: 10px;
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--border-color);
-  padding: 26px 22px;
-  margin-bottom: 26px;
-  transition: box-shadow 0.2s;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(16, 42, 67, 0.09), 0 1.5px 8px 0 rgba(59, 130, 246, 0.03);
+  border: 1.5px solid var(--border-color);
+  padding: 32px 28px;
+  margin-bottom: 32px;
+  transition: 
+    box-shadow 0.22s cubic-bezier(.4,0,.2,1), 
+    border-radius 0.19s;
+  /* Add subtle backdrop for contrast if on light bg */
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
 }
 
 .section-card {
-  align-items: start !important;
+  align-items: flex-start !important;
   text-align: left !important;
+  /* Give inner sections a bit more top space if used in column layouts */
+  margin-top: 14px;
 }
 
 .section-card:hover, .card:hover {
-  box-shadow: 0 4px 32px 0 rgba(16, 42, 67, 0.11);
+  /* Modern, pronounced shadow on hover */
+  box-shadow: 0 16px 40px 0 rgba(59, 130, 246, 0.13), 0 2px 10px 0 rgba(16, 42, 67, 0.13);
+  z-index: 2;
+  transform: translateY(-3px) scale(1.016);
 }
 
 /* Typography */
