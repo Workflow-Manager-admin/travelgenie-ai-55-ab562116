@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // PUBLIC_INTERFACE
 function HomePage() {
   /**
-   * Home page for TravelGenie AI.
+   * Home page for TravelGenie AI - navigation and overview.
    */
   return (
     <div className="container" style={{ paddingTop: 100, textAlign: "center" }}>
@@ -15,11 +16,10 @@ function HomePage() {
       </h1>
       <p
         className="description"
-        style={{ maxWidth: 460, margin: "20px auto", fontSize: "1.23rem" }}
+        style={{ maxWidth: 460, margin: "20px auto", fontSize: "1.18rem" }}
       >
-        Welcome to WanderWise – your AI-powered travel planning companion!
-        <br />
-        Plan your dream trips with smart itineraries, weather updates and instant travel chat support.
+        Plan your dream trips with smart itineraries, weather updates, and instant travel chat support.<br />
+        Let AI take care of your travel details, from adventure to arrival!
       </p>
       <div
         style={{
@@ -30,18 +30,18 @@ function HomePage() {
           flexWrap: "wrap",
         }}
       >
-        <a href="/itinerary">
+        <Link to="/itinerary">
           <button className="btn btn-large">AI Itinerary Planner</button>
-        </a>
-        <a href="/weather">
+        </Link>
+        <Link to="/weather">
           <button className="btn btn-large">Weather Checker</button>
-        </a>
-        <a href="/chat">
+        </Link>
+        <Link to="/chat">
           <button className="btn btn-large">AI Travel Chat</button>
-        </a>
+        </Link>
       </div>
       <div style={{ color: "var(--text-secondary)", fontSize: ".98rem" }}>
-        Explore, dream, and let AI handle your travel details!
+        Explore, dream, and let AI handle your travel plans!
       </div>
     </div>
   );

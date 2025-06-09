@@ -3,11 +3,10 @@ import React, { useState } from "react";
 // PUBLIC_INTERFACE
 function WeatherPage() {
   /**
-   * Lets user enter a city, fetches & displays current weather and 5-day forecast (OpenWeatherMap API).
-   * DEMO: To use real data, set your OpenWeatherMap API key in the 'API_KEY' constant.
+   * Lets user enter a city, fetches & displays current weather and forecast via OpenWeatherMap API.
+   * Uses process.env.REACT_APP_OPENWEATHERMAP_API_KEY.
    */
-
-  const API_KEY = ""; // <-- Insert OpenWeatherMap API key for real API calls (demo code falls back to mock)
+  const API_KEY = process.env.REACT_APP_OPENWEATHERMAP_API_KEY || "";
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
@@ -15,16 +14,7 @@ function WeatherPage() {
   const [loading, setLoading] = useState(false);
 
   async function fetchWeather(cityName) {
-    if (!API_KEY) {
-      // No API key: return mock
-      return {
-        main: { temp: 22, humidity: 60 },
-        weather: [{ main: "Clouds", description: "partly cloudy" }],
-        wind: { speed: 9 },
-        name: cityName
-      };
-    }
-    // Live
+    // Live call to OpenWeatherMap
     const res = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityName)}&units=metric&appid=${API_KEY}`
     );
@@ -33,16 +23,6 @@ function WeatherPage() {
   }
 
   async function fetchForecast(cityName) {
-    if (!API_KEY) {
-      // Return mock 3-day forecast
-      const now = new Date();
-      return [
-        { date: addDaysStr(now, 1), temp: 24, desc: "Mostly sunny" },
-        { date: addDaysStr(now, 2), temp: 25, desc: "Showers" },
-        { date: addDaysStr(now, 3), temp: 23, desc: "Partly cloudy" }
-      ];
-    }
-    // Live
     const res = await fetch(
       `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(cityName)}&units=metric&appid=${API_KEY}`
     );
@@ -66,12 +46,6 @@ function WeatherPage() {
     return dayForecasts;
   }
 
-  function addDaysStr(date, n) {
-    const d = new Date(date.getTime());
-    d.setDate(d.getDate() + n);
-    return d.toISOString().slice(0,10);
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -79,12 +53,13 @@ function WeatherPage() {
     setForecast([]);
     setLoading(true);
     try {
+      if (!API_KEY) throw new Error("Weather API key missing (REACT_APP_OPENWEATHERMAP_API_KEY).");
       const cur = await fetchWeather(city);
       setWeather(cur);
       const fcast = await fetchForecast(city);
       setForecast(fcast);
     } catch (e) {
-      setError("City not found or network issue.");
+      setError(e.message || "City not found or network issue.");
     }
     setLoading(false);
   };

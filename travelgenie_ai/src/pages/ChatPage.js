@@ -3,45 +3,58 @@ import React, { useState, useRef, useEffect } from "react";
 // PUBLIC_INTERFACE
 function ChatPage() {
   /**
-   * Chat AI page: user chats travel Q&A with simulated AI (could connect to Cohere/OpenAI, demo fallback).
+   * AI travel chat powered by Cohere, using REACT_APP_COHERE_KEY.
    */
-
   const [messages, setMessages] = useState([
     { from: "ai", text: "Hi! I'm TravelGenie. Ask me anything about your trip or destination!" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const inputRef = useRef();
 
-  // Placeholder for AI response (simulate with setTimeout)
-  async function aiChatApi(question, contextMsgs) {
-    // Use a real fetch to your own AI endpoint here
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Basic mock/echo plus example extra
-        let resp = "That's an excellent question! Here's something you might find useful:\n";
-        if (/paris/i.test(question)) resp += "Don't miss the Eiffel Tower and Louvre Museum in Paris!";
-        else if (/weather/i.test(question)) resp += "You can check the local weather in our Weather Checker page!";
-        else if (/budget/i.test(question)) resp += "Budget depends on your preferences, but I can suggest affordable lodging and sights.";
-        else resp += "I recommend searching for top attractions or let me know your preferences for custom tips!";
-        resolve(resp);
-      }, 1300);
+  const COHERE_KEY = process.env.REACT_APP_COHERE_KEY;
+
+  // Cohere Chat endpoint for Q&A context (requires account and endpoint enabled)
+  async function callCohereChat(prompt, chatHistory) {
+    const res = await fetch("https://api.cohere.ai/v1/chat", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${COHERE_KEY}`,
+        "Content-Type": "application/json",
+        "Cohere-Version": "2022-12-06"
+      },
+      body: JSON.stringify({
+        model: "command",
+        message: prompt,
+        chat_history: chatHistory.map(m => ({
+          user_name: m.from === "user" ? "User" : "AI",
+          message: m.text
+        })),
+        temperature: 0.8
+      }),
     });
+    if (!res.ok) throw new Error("Failed to get AI response. API error.");
+    const data = await res.json();
+    return data?.text || "No response.";
   }
 
   const handleSend = async (e) => {
     e.preventDefault();
     const question = input.trim();
     if (!question) return;
-    setMessages(msgs => [...msgs, { from: "user", text: question }]);
     setInput("");
+    setError("");
     setLoading(true);
+    const userMsg = { from: "user", text: question };
+    setMessages(msgs => [...msgs, userMsg]);
     try {
-      const contextMsgs = messages.map(m => m.text).join("\n");
-      const aiReply = await aiChatApi(question, contextMsgs);
-      setMessages(msgs =>
-        [...msgs, { from: "user", text: question }, { from: "ai", text: aiReply }]
-      );
+      if (!COHERE_KEY) throw new Error("Cohere API key missing (REACT_APP_COHERE_KEY).");
+      const chatHistory = [...messages, userMsg];
+      const reply = await callCohereChat(question, chatHistory);
+      setMessages(msgs => [...msgs, { from: "ai", text: reply }]);
+    } catch (err) {
+      setError(err.message || "Failed to get AI response.");
     } finally {
       setLoading(false);
     }
@@ -102,6 +115,9 @@ function ChatPage() {
           {loading ? "Thinking..." : "Send"}
         </button>
       </form>
+      {error &&
+        <div style={{color:"tomato", marginTop:10, fontSize:".97rem"}}>{error}</div>
+      }
       <div style={{marginTop:10, color:"var(--text-secondary)", fontSize:".96rem"}}>
         Try asking: <span style={{fontStyle:"italic"}}>What should I pack for Iceland? What to do in Paris?</span>
       </div>
