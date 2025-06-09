@@ -2,9 +2,9 @@
 > react-kavia@0.1.0 start
 > react-scripts start
 
-(node:359434) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:371039) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:359434) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:371039) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
 Compiled successfully!
@@ -23,10 +23,62 @@ Compiled with warnings.
 
 [eslint] 
 src/pages/ItineraryPage.js
+  Line 16:10:  'itineraryText' is assigned a value but never used   no-unused-vars
+  Line 25:10:  'showFlights' is assigned a value but never used     no-unused-vars
+  Line 25:23:  'setShowFlights' is assigned a value but never used  no-unused-vars
+  Line 96:42:  Unnecessary escape character: \-                     no-useless-escape
+  Line 96:45:  Unnecessary escape character: \*                     no-useless-escape
+  Line 96:49:  Unnecessary escape character: \.                     no-useless-escape
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/pages/ItineraryPage.js
+  Line 16:10:  'itineraryText' is assigned a value but never used   no-unused-vars
+  Line 25:10:  'showFlights' is assigned a value but never used     no-unused-vars
+  Line 25:23:  'setShowFlights' is assigned a value but never used  no-unused-vars
+  Line 96:42:  Unnecessary escape character: \-                     no-useless-escape
+  Line 96:45:  Unnecessary escape character: \*                     no-useless-escape
+  Line 96:49:  Unnecessary escape character: \.                     no-useless-escape
+
+webpack compiled with 1 warning
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/pages/ItineraryPage.js
+  Line 16:10:  'itineraryText' is assigned a value but never used       no-unused-vars
+  Line 25:10:  'showFlights' is assigned a value but never used         no-unused-vars
+  Line 96:42:  Unnecessary escape character: \-                         no-useless-escape
+  Line 96:45:  Unnecessary escape character: \*                         no-useless-escape
+  Line 96:49:  Unnecessary escape character: \.                         no-useless-escape
+  Line 165:9:  'handleFlightSearch' is assigned a value but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/pages/ItineraryPage.js
+  Line 16:10:  'itineraryText' is assigned a value but never used       no-unused-vars
+  Line 25:10:  'showFlights' is assigned a value but never used         no-unused-vars
+  Line 96:42:  Unnecessary escape character: \-                         no-useless-escape
+  Line 96:45:  Unnecessary escape character: \*                         no-useless-escape
+  Line 96:49:  Unnecessary escape character: \.                         no-useless-escape
+  Line 165:9:  'handleFlightSearch' is assigned a value but never used  no-unused-vars
+
+webpack compiled with 1 warning
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/pages/ItineraryPage.js
   Line 16:10:  'itineraryText' is assigned a value but never used  no-unused-vars
-  Line 95:42:  Unnecessary escape character: \-                    no-useless-escape
-  Line 95:45:  Unnecessary escape character: \*                    no-useless-escape
-  Line 95:49:  Unnecessary escape character: \.                    no-useless-escape
+  Line 96:42:  Unnecessary escape character: \-                    no-useless-escape
+  Line 96:45:  Unnecessary escape character: \*                    no-useless-escape
+  Line 96:49:  Unnecessary escape character: \.                    no-useless-escape
+  Line 489:7:  'thStyle' is assigned a value but never used        no-unused-vars
+  Line 494:7:  'tdStyle' is assigned a value but never used        no-unused-vars
 
 Search for the keywords to learn more about each warning.
 To ignore, add // eslint-disable-next-line to the line before.
@@ -34,8 +86,10 @@ To ignore, add // eslint-disable-next-line to the line before.
 WARNING in [eslint] 
 src/pages/ItineraryPage.js
   Line 16:10:  'itineraryText' is assigned a value but never used  no-unused-vars
-  Line 95:42:  Unnecessary escape character: \-                    no-useless-escape
-  Line 95:45:  Unnecessary escape character: \*                    no-useless-escape
-  Line 95:49:  Unnecessary escape character: \.                    no-useless-escape
+  Line 96:42:  Unnecessary escape character: \-                    no-useless-escape
+  Line 96:45:  Unnecessary escape character: \*                    no-useless-escape
+  Line 96:49:  Unnecessary escape character: \.                    no-useless-escape
+  Line 489:7:  'thStyle' is assigned a value but never used        no-unused-vars
+  Line 494:7:  'tdStyle' is assigned a value but never used        no-unused-vars
 
 webpack compiled with 1 warning
