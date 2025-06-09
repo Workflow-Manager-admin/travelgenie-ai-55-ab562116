@@ -10,6 +10,7 @@ function ItineraryPage() {
     from: "",
     to: "",
     days: "",
+    startDate: "",
   });
   const [loading, setLoading] = useState(false);
   const [itineraryText, setItineraryText] = useState(""); // AI raw output
@@ -29,12 +30,13 @@ function ItineraryPage() {
   const AMA_API_SECRET = '0FMhmIHl7JHsbFpy'
 
   // PUBLIC_INTERFACE
-  async function fetchItineraryCohere({ from, to, days }) {
-    // Construct a very specific prompt for numbered, day-by-day output
+  async function fetchItineraryCohere({ from, to, days, startDate }) {
+    // Construct a very specific prompt for numbered, day-by-day output that includes the trip start date for clarity
     const prompt =
 `Create a detailed travel itinerary for this trip:
 From: ${from}
 To: ${to}
+Start date: ${startDate}
 Trip length: ${days} days
 
 For each day, write a heading 'Day X:' and then list the main activities or recommendations (separated by newlines). Be concise and practical, and include tips or must-see places if relevant.
@@ -45,7 +47,8 @@ Day 1:
 Day 2:
 - Activity
 ...
-Continue day by day for the requested number of days.`;
+Continue day by day for the requested number of days.
+Always take the actual trip start date into account.`;
 
     const res = await fetch("https://api.cohere.ai/v1/generate", {
       method: "POST",
@@ -160,7 +163,9 @@ Continue day by day for the requested number of days.`;
     const { name, value } = e.target;
     setForm(f => ({
       ...f,
-      [name]: name === "days" ? (value.replace(/[^0-9]/g,"").slice(0,2) || "") : value
+      [name]: name === "days"
+        ? (value.replace(/[^0-9]/g, "").slice(0, 2) || "")
+        : value
     }));
   };
 
@@ -172,7 +177,7 @@ Continue day by day for the requested number of days.`;
     setLoading(true);
     try {
       if (!COHERE_KEY) throw new Error("AI API key is missing (REACT_APP_COHERE_KEY).");
-      if (!form.from.trim() || !form.to.trim() || !form.days.trim()) throw new Error("All fields required.");
+      if (!form.from.trim() || !form.to.trim() || !form.days.trim() || !form.startDate.trim()) throw new Error("All fields required.");
       const text = await fetchItineraryCohere(form);
       setItineraryText(text.trim());
       setItineraryByDay(parseItineraryByDay(text));
@@ -273,6 +278,19 @@ Continue day by day for the requested number of days.`;
             />
           </label>
         </div>
+        <label style={{ width: "100%" }}>
+          Start Date:<br />
+          <input
+            name="startDate"
+            type="date"
+            value={form.startDate}
+            onChange={handleChange}
+            required
+            className="input"
+            style={{ maxWidth: 200 }}
+            min={new Date().toISOString().split('T')[0]}
+          />
+        </label>
         <label style={{ width: "100%" }}>
           Number of Days:<br />
           <input
