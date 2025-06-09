@@ -1,33 +1,57 @@
 :root {
-  --base-light: #00ffff;
-  --base-dark: #00008b;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+  /* Primary Theme Variables */
+  --primary: #3B82F6;
+  --secondary: #10B981;
+  --background: #F9FAFB;
+  --text-dark: #111827;
+  --text-light: #FFFFFF;
+  --accent: #F59E0B;
+  --navbar-bg: var(--primary);
+  --navbar-text: var(--text-light);
+
+  /* Additional palette for variants and UI states */
+  --card-bg: #FFFFFF;
+  --card-shadow: 0 2px 24px 0 rgba(16, 42, 67, 0.05);
+  --border-color: #e5e7eb;
+  --input-bg: #F3F4F6;
+  --input-border: #CBD5E1;
+  --btn-hover: #2563eb;
+  --btn-secondary-bg: var(--secondary);
+  --btn-secondary-hover: #059669;
+  --accent-light: #fde68a;
+  --error: #EF4444;
+  --success: #22C55E;
+  --text-secondary: #6B7280;
 }
 
 body {
   margin: 0;
   font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  background-color: var(--base-dark);
-  color: var(--text-color);
+  background-color: var(--background);
+  color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
+/* App container */
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--background);
+  color: var(--text-dark);
 }
 
+/* NAVBAR */
 .navbar {
-  background-color: var(--base-dark);
-  padding: 16px;
+  background-color: var(--navbar-bg);
+  color: var(--navbar-text);
+  padding: 16px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--primary);
   position: fixed;
   top: 0;
   width: 100%;
@@ -41,10 +65,14 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--navbar-text);
+  letter-spacing: 0.02em;
 }
 
 .logo-symbol {
-  color: var(--base-light);
+  color: var(--accent);
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
 .container {
@@ -55,7 +83,8 @@ body {
   box-sizing: border-box;
 }
 
-.hero {
+/* HERO/SECTION (e.g., homepage panel) */
+.hero, .section-card {
   padding-top: 120px;
   padding-bottom: 64px;
   text-align: center;
@@ -65,10 +94,33 @@ body {
   gap: 24px;
 }
 
+/* Card/Section */
+.section-card, .card {
+  background: var(--card-bg);
+  color: var(--text-dark);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  padding: 26px 22px;
+  margin-bottom: 26px;
+  transition: box-shadow 0.2s;
+}
+
+.section-card {
+  align-items: start !important;
+  text-align: left !important;
+}
+
+.section-card:hover, .card:hover {
+  box-shadow: 0 4px 32px 0 rgba(16, 42, 67, 0.11);
+}
+
+/* Typography */
 .subtitle {
-  color: var(--base-light);
+  color: var(--secondary);
   font-weight: 500;
   font-size: 1.1rem;
+  letter-spacing: 0.01em;
 }
 
 .title {
@@ -76,6 +128,7 @@ body {
   font-weight: 600;
   line-height: 1.2;
   margin: 0;
+  color: var(--text-dark);
 }
 
 .description {
@@ -86,23 +139,141 @@ body {
   margin-bottom: 16px;
 }
 
+/* BUTTONS */
 .btn {
-  background-color: var(--base-light);
-  color: white;
+  background-color: var(--primary);
+  color: var(--text-light);
   border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
+  border-radius: 6px;
+  padding: 10px 22px;
   font-size: 1rem;
   font-weight: 500;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 4px 0 rgba(59, 130, 246, 0.06);
+  transition: background 0.16s, box-shadow .18s, color 0.15s;
+  outline: none;
+  margin: 0;
 }
 
-.btn:hover {
-  background-color: #7691ff;
+.btn:hover, .btn:focus {
+  background: var(--btn-hover);
+  color: var(--text-light);
+  box-shadow: 0 2px 10px 0 rgba(59, 130, 246, 0.16);
+  text-decoration: none;
 }
 
+.btn:active {
+  background: #174ea6;
+}
+
+/* Secondary/Accent Button variant */
+.btn.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--text-light);
+}
+
+.btn.btn-secondary:hover {
+  background: var(--btn-secondary-hover);
+}
+
+.btn.btn-accent {
+  background: var(--accent);
+  color: var(--text-dark);
+}
+.btn.btn-accent:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* .btn-large for prominent CTA buttons */
 .btn-large {
-  padding: 12px 24px;
-  font-size: 1.1rem;
+  padding: 12px 28px;
+  font-size: 1.14rem;
+  border-radius: 6px;
 }
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* INPUTS / FORMS */
+input[type="text"], input[type="number"], input[type="date"], input[type="email"], 
+textarea, select {
+  font-family: inherit;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-dark);
+  outline: none;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  transition: border-color 0.17s, box-shadow 0.17s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus,
+input[type="email"]:focus, textarea:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary)22;
+}
+
+input[disabled], textarea[disabled], select[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Utility Classes for Forms */
+.form-label {
+  font-size: .98rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.form-helper {
+  color: var(--accent);
+  font-size: .92rem;
+  margin-top: 2px;
+}
+.form-error {
+  color: var(--error);
+  font-size: .95rem;
+  margin: 8px 0 0 0;
+}
+
+/* Weather Table (special override for section contrast) */
+.table-section {
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  padding: 12px 18px;
+}
+
+/* Misc: Hide scrollbars for those containers if styled.
+   For chat/message areas etc.
+*/
+::-webkit-scrollbar {
+  width: 9px;
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  .hero, .section-card {
+    padding-top: 80px;
+    padding-bottom: 32px;
+  }
+  .container {
+    padding: 0 8px;
+  }
+}
+
