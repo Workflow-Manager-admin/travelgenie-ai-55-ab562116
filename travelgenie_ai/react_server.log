@@ -2,9 +2,9 @@
 > react-kavia@0.1.0 start
 > react-scripts start
 
-(node:49446) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:60473) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:49446) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:60473) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
 Compiled successfully!
@@ -17,6 +17,440 @@ You can now view react-kavia in the browser.
 Note that the development build is not optimized.
 To create a production build, use npm run build.
 
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/pages/WeatherPage.js
+  Line 10:27:  'API_KEY' was used before it was defined  no-use-before-define
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/pages/WeatherPage.js
+  Line 10:27:  'API_KEY' was used before it was defined  no-use-before-define
+
+webpack compiled with 1 warning
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/pages/WeatherPage.js
+  Line 10:27:  'API_KEY' was used before it was defined  no-use-before-define
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/pages/WeatherPage.js
+  Line 10:27:  'API_KEY' was used before it was defined  no-use-before-define
+
+webpack compiled with 1 warning
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/WeatherPage.js
+Syntax error: Unexpected token (9:30) (9:30)
+ERROR in ./src/pages/WeatherPage.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src/pages/WeatherPage.js: Unexpected token (9:30)
+
+   7 |    * Uses process.env.REACT_APP_WEATHER_API_KEY.
+   8 |    */
+>  9 |   const API_KEY = process.env.|| "";
+     |                               ^
+  10 |   console.log("API Key:", API_KEY);
+  11 |   const [city, setCity] = useState("");
+  12 |   const [weather, setWeather] = useState(null);
+    at constructor (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:360:19)
+    at FlowParserMixin.raise (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:3327:19)
+    at FlowParserMixin.unexpected (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:3347:16)
+    at FlowParserMixin.parseIdentifierName (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11881:12)
+    at FlowParserMixin.parseIdentifier (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11864:23)
+    at FlowParserMixin.parseMember (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10823:28)
+    at FlowParserMixin.parseSubscript (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10802:21)
+    at FlowParserMixin.parseSubscript (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5874:18)
+    at FlowParserMixin.parseSubscripts (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10771:19)
+    at FlowParserMixin.parseSubscripts (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5840:18)
+    at FlowParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10762:17)
+    at FlowParserMixin.parseUpdate (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10743:21)
+    at FlowParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10723:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10576:61)
+    at FlowParserMixin.parseExprOps (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10581:23)
+    at FlowParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10558:23)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10521:21)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5773:18)
+    at /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10491:39
+    at FlowParserMixin.allowInAnd (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12095:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10491:17)
+    at FlowParserMixin.parseVar (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:13028:91)
+    at FlowParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12874:10)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12489:23)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12386:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12960:61)
+    at FlowParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12953:10)
+    at FlowParserMixin.parseBlock (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12941:10)
+    at FlowParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11783:24)
+    at FlowParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5117:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11769:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5125:18)
+    at /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:13085:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12077:14)
+    at FlowParserMixin.parseFunction (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:13084:10)
+    at FlowParserMixin.parseFunctionStatement (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12769:17)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12430:21)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12383:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12960:36)
+    at FlowParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12953:10)
+    at FlowParserMixin.parseProgram (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12280:10)
+    at FlowParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12270:25)
+    at FlowParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5909:28)
+    at FlowParserMixin.parse (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:14120:10)
+    at parse (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:14154:38)
+    at parser (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/core/lib/parser/index.js:41:34)
+
+ERROR in [eslint] 
+src/pages/WeatherPage.js
+  Line 9:30:  Parsing error: Unexpected token (9:30)
+
+webpack compiled with 2 errors
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/pages/WeatherPage.js
+  Line 10:27:  'API_KEY' was used before it was defined  no-use-before-define
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/pages/WeatherPage.js
+  Line 10:27:  'API_KEY' was used before it was defined  no-use-before-define
+
+webpack compiled with 1 warning
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 54:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 54:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 16:1:   'REACT_APP_COHERE_KEY' is not defined                      no-undef
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+  Line 55:27:  'callCohereChat' is not defined                            no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 16:1:   'REACT_APP_COHERE_KEY' is not defined                      no-undef
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+  Line 55:27:  'callCohereChat' is not defined                            no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 54:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 54:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 16:1:   'REACT_APP_COHERE_KEY' is not defined                      no-undef
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+  Line 55:27:  'callCohereChat' is not defined                            no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 16:1:   'REACT_APP_COHERE_KEY' is not defined                      no-undef
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+  Line 55:27:  'callCohereChat' is not defined                            no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 54:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 54:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 55:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 55:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 16:1:   'REACT_APP_COHERE_KEY' is not defined                      no-undef
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+  Line 56:27:  'callCohereChat' is not defined                            no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 16:1:   'REACT_APP_COHERE_KEY' is not defined                      no-undef
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+  Line 56:27:  'callCohereChat' is not defined                            no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 55:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 55:27:  'callCohereChat' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 16:22:  'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/pages/ChatPage.js
+Syntax error: Unterminated string constant. (16:61) (16:61)
+ERROR in ./src/pages/ChatPage.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src/pages/ChatPage.js: Unterminated string constant. (16:61)
+
+  14 |   const inputRef = useRef();
+  15 |
+> 16 |   const COHERE_KEY = xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv'
+     |                                                              ^
+  17 |   //process.env.REACT_APP_COHERE_KEY;
+  18 |
+  19 |   // Cohere Chat endpoint for Q&A context (requires account and endpoint enabled)
+    at constructor (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:360:19)
+    at FlowParserMixin.raise (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:3327:19)
+    at Object.unterminated (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:2395:20)
+    at readStringContents (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:2137:16)
+    at FlowParserMixin.readString (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:3226:9)
+    at FlowParserMixin.getTokenFromCode (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:2986:14)
+    at FlowParserMixin.getTokenFromCode (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:6970:11)
+    at FlowParserMixin.getTokenFromCode (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5419:13)
+    at FlowParserMixin.nextToken (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:2510:10)
+    at FlowParserMixin.next (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:2423:10)
+    at FlowParserMixin.parseIdentifierName (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11891:10)
+    at FlowParserMixin.parseIdentifier (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11864:23)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11100:27)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:6937:20)
+    at FlowParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10758:23)
+    at FlowParserMixin.parseUpdate (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10743:21)
+    at FlowParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10723:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10576:61)
+    at FlowParserMixin.parseExprOps (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10581:23)
+    at FlowParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10558:23)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10521:21)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5773:18)
+    at /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10491:39
+    at FlowParserMixin.allowInAnd (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12095:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:10491:17)
+    at FlowParserMixin.parseVar (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:13028:91)
+    at FlowParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12874:10)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12489:23)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12386:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12960:61)
+    at FlowParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12953:10)
+    at FlowParserMixin.parseBlock (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12941:10)
+    at FlowParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11783:24)
+    at FlowParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5117:11)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:11769:10)
+    at FlowParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5125:18)
+    at /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:13085:12
+    at FlowParserMixin.withSmartMixTopicForbiddingContext (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12077:14)
+    at FlowParserMixin.parseFunction (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:13084:10)
+    at FlowParserMixin.parseFunctionStatement (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12769:17)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12430:21)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12383:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12960:36)
+    at FlowParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12953:10)
+    at FlowParserMixin.parseProgram (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12280:10)
+    at FlowParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/@babel/parser/lib/index.js:12270:25)
+
+ERROR in [eslint] 
+src/pages/ChatPage.js
+  Line 16:61:  Parsing error: Unterminated string constant. (16:61)
+
+webpack compiled with 2 errors
+Compiling...
+Compiled successfully!
 webpack compiled successfully
 Compiling...
 Compiled successfully!

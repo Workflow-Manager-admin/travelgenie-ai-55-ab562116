@@ -6,7 +6,8 @@ function ItineraryPage() {
    * User provides trip info; Cohere API called using env var for key; AI itinerary displayed.
    */
   const [form, setForm] = useState({
-    destination: "",
+    from: "",
+    to: "",
     startDate: "",
     endDate: "",
     budget: "",
@@ -21,7 +22,8 @@ function ItineraryPage() {
   async function fetchItineraryCohere(formData) {
     // Cohere "generate" API endpoint (generation, not chat)
     const prompt = `Create a personalized, day-by-day travel itinerary for a trip with these details:
-Destination: ${formData.destination}
+From: ${formData.from}
+To: ${formData.to}
 Start date: ${formData.startDate}
 End date: ${formData.endDate}
 Budget: ${formData.budget || "Not specified"}
@@ -77,18 +79,31 @@ Please provide recommendations for each day, with tips if possible.`;
         display: "flex", flexDirection: "column", gap: "14px",
         border: "1px solid var(--border-color)", borderRadius: 8, padding: 24, background: "rgba(255,255,255,0.04)"
       }}>
-        <label>
-          Destination:<br />
-          <input
-            name="destination"
-            value={form.destination}
-            onChange={handleChange}
-            required
-            className="input"
-            autoFocus
-            placeholder="e.g., Paris"
-          />
-        </label>
+        <div style={{ display: "flex", gap: 8 }}>
+          <label style={{ flex: 1 }}>
+            From:<br />
+            <input
+              name="from"
+              value={form.from}
+              onChange={handleChange}
+              required
+              className="input"
+              autoFocus
+              placeholder="e.g., New York"
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            To:<br />
+            <input
+              name="to"
+              value={form.to}
+              onChange={handleChange}
+              required
+              className="input"
+              placeholder="e.g., Paris"
+            />
+          </label>
+        </div>
         <div style={{ display: "flex", gap: 8 }}>
           <label style={{ flex: 1 }}>
             Start Date:<br />

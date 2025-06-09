@@ -13,7 +13,8 @@ function ChatPage() {
   const [error, setError] = useState("");
   const inputRef = useRef();
 
-  const COHERE_KEY = process.env.REACT_APP_COHERE_KEY;
+  const COHERE_KEY = 'xyV9r163fmM8ieMhIFAUbmymr6DakgKJ8wj520lv'
+  //process.env.REACT_APP_COHERE_KEY;
 
   // Cohere Chat endpoint for Q&A context (requires account and endpoint enabled)
   async function callCohereChat(prompt, chatHistory) {

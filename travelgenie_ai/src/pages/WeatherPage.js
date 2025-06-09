@@ -4,9 +4,10 @@ import React, { useState } from "react";
 function WeatherPage() {
   /**
    * Lets user enter a city, fetches & displays current weather and forecast via OpenWeatherMap API.
-   * Uses process.env.REACT_APP_OPENWEATHERMAP_API_KEY.
+   * Uses process.env.REACT_APP_WEATHER_API_KEY.
    */
-  const API_KEY = process.env.REACT_APP_OPENWEATHERMAP_API_KEY || "";
+  const API_KEY = 'c8d2c05abce0a5d7f303c425e174d820'//process.env.REACT_APP_WEATHER_API_KEY|| "";
+  console.log("API Key:", API_KEY);
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
@@ -53,7 +54,7 @@ function WeatherPage() {
     setForecast([]);
     setLoading(true);
     try {
-      if (!API_KEY) throw new Error("Weather API key missing (REACT_APP_OPENWEATHERMAP_API_KEY).");
+      if (!API_KEY) throw new Error("Weather API key missing (REACT_APP_WEATHER_API_KEY).");
       const cur = await fetchWeather(city);
       setWeather(cur);
       const fcast = await fetchForecast(city);
