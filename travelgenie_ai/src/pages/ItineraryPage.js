@@ -3,15 +3,14 @@ import React, { useState, useEffect } from "react";
 // PUBLIC_INTERFACE
 function ItineraryPage() {
   /**
-   * User provides 'From', 'To', and 'Number of Days'; Cohere API called for day-by-day itinerary;
+   * User provides 'From', 'To', 'Start Date', and 'End Date'; Cohere API called for day-by-day itinerary;
    * Results are clearly separated by day; real-time flight results shown below (if available).
    */
   const [form, setForm] = useState({
     from: "",
     to: "",
-    days: "",
     startDate: "",
-    endDate: "", // NEW FIELD
+    endDate: "",
   });
   const [loading, setLoading] = useState(false);
   const [itineraryText, setItineraryText] = useState(""); // AI raw output
@@ -31,17 +30,17 @@ function ItineraryPage() {
   const AMA_API_SECRET = '0FMhmIHl7JHsbFpy'
 
   // PUBLIC_INTERFACE
-  async function fetchItineraryCohere({ from, to, days, startDate, endDate }) {
-    // Construct a very specific prompt for numbered, day-by-day output that includes both trip start and end dates for clarity
+  async function fetchItineraryCohere({ from, to, startDate, endDate }) {
+    // Construct prompt for day-by-day output, using only trip start and end dates
     const prompt =
 `Create a detailed travel itinerary for this trip:
 From: ${from}
 To: ${to}
 Start date: ${startDate}
 End date: ${endDate}
-Trip length: ${days} days
 
 For each day, write a heading 'Day X:' and then list the main activities or recommendations (separated by newlines). Be concise and practical, and include tips or must-see places if relevant.
+
 Example format:
 Day 1:
 - Arrive
@@ -49,8 +48,8 @@ Day 1:
 Day 2:
 - Activity
 ...
-Continue day by day for the requested number of days.
-Always take the actual trip start and end dates into account.`;
+Continue day by day, ensuring the number of days matches the duration between the start and end dates (inclusive).
+Use the given trip start and end dates to determine length.`;
 
     const res = await fetch("https://api.cohere.ai/v1/generate", {
       method: "POST",
@@ -93,7 +92,7 @@ Always take the actual trip start and end dates into account.`;
         currentActivities = [];
       } else if (line.trim().length) {
         // Remove leading dash/bullet/number and trim
-        const activity = line.replace(/^[\-\•\*\d\.\s]+/, "").trim();
+        const activity = line.replace(/^[\-•\*\d\.\s]+/, "").trim();
         if (activity) {
           currentActivities.push(activity);
         }
@@ -144,7 +143,7 @@ Always take the actual trip start and end dates into account.`;
     }
     const origin = await getAirportCode(from, token);
     const destination = await getAirportCode(to, token);
-    // Use today's date for flight search if 'days' missing
+    // Use today's date for flight search if dates not provided
     const todayStr = new Date().toISOString().slice(0, 10);
     const url = `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&departureDate=${todayStr}&adults=1&currencyCode=USD&max=6`;
     const res = await fetch(url, {
@@ -159,15 +158,13 @@ Always take the actual trip start and end dates into account.`;
     }
     const data = await res.json();
     return data.data || [];
-  }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(f => ({
       ...f,
-      [name]: name === "days"
-        ? (value.replace(/[^0-9]/g, "").slice(0, 2) || "")
-        : value
+      [name]: value
     }));
   };
 
@@ -182,7 +179,6 @@ Always take the actual trip start and end dates into account.`;
       if (
         !form.from.trim() ||
         !form.to.trim() ||
-        !form.days.trim() ||
         !form.startDate.trim() ||
         !form.endDate.trim()
       ) {
@@ -319,21 +315,7 @@ Always take the actual trip start and end dates into account.`;
             />
           </label>
         </div>
-        <label style={{ width: "100%" }}>
-          Number of Days:<br />
-          <input
-            name="days"
-            type="number"
-            value={form.days}
-            onChange={handleChange}
-            min={1}
-            max={30}
-            required
-            className="input"
-            placeholder="e.g., 5"
-            style={{ maxWidth: 150 }}
-          />
-        </label>
+        {/* Number of Days field removed */}
         <button className="btn btn-large" type="submit" disabled={loading}>
           {loading ? "Generating..." : "Generate Itinerary"}
         </button>
@@ -357,8 +339,7 @@ Always take the actual trip start and end dates into account.`;
             fontSize: ".98rem"
           }}>
             <b>From:</b> {form.from} <b>To:</b> {form.to} <br/>
-            <b>Start Date:</b> {form.startDate} <b>End Date:</b> {form.endDate} <br/>
-            <b>Number of Days:</b> {form.days}
+            <b>Start Date:</b> {form.startDate} <b>End Date:</b> {form.endDate}
           </div>
           {itineraryByDay.map(({ day, activities }) => (
             <div
