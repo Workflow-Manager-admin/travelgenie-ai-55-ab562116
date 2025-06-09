@@ -2,9 +2,9 @@
 > react-kavia@0.1.0 start
 > react-scripts start
 
-(node:34831) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:42755) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:34831) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:42755) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
 Compiled successfully!
@@ -18,3 +18,139 @@ Note that the development build is not optimized.
 To create a production build, use npm run build.
 
 webpack compiled successfully
+Compiling...
+Failed to compile.
+
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+ERROR in ./src/App.js 5:0-64
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+
+ERROR in ./src/App.js 7:0-41
+Module not found: Error: Can't resolve './components/Navbar' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+
+webpack compiled with 2 errors
+Compiling...
+Failed to compile.
+
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+ERROR in ./src/App.js 5:0-64
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+
+ERROR in ./src/components/Navbar.js 5:0-43
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src/components'
+
+webpack compiled with 2 errors
+Compiling...
+Failed to compile.
+
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+ERROR in ./src/App.js 5:0-64
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+
+ERROR in ./src/components/Navbar.js 5:0-43
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src/components'
+
+webpack compiled with 2 errors
+Compiling...
+Failed to compile.
+
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+LOG from webpack.FileSystemInfo
+<w> Managed item /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/react-router-dom isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
++ 13 hidden lines
+
+ERROR in ./src/App.js 5:0-64
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src'
+
+ERROR in ./src/components/Navbar.js 5:0-43
+Module not found: Error: Can't resolve 'react-router-dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/src/components'
+
+webpack compiled with 2 errors
+Compiling...
+Failed to compile.
+
+Attempted import error: 'BrowserRouter' is not exported from 'react-router-dom' (imported as 'BrowserRouter').
+LOG from webpack.FileSystemInfo
+<w> Managed item /home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/react-router isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
++ 13 hidden lines
+
+ERROR in ./src/App.js 16:30-43
+export 'BrowserRouter' (imported as 'BrowserRouter') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 24:39-45
+export 'Routes' (imported as 'Routes') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 25:42-47
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 36:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 47:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 58:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/components/Navbar.js 60:57-64
+export 'NavLink' (imported as 'NavLink') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./node_modules/react-router-dom/dist/index.mjs 13:0-66
+Module not found: Error: Can't resolve 'react-router/dom' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/react-router-dom/dist'
+
+ERROR in ./node_modules/react-router-dom/dist/index.mjs 14:0-29
+Module not found: Error: Can't resolve 'react-router' in '/home/kavia/workspace/code-generation/travelgenie-ai-55-ab562116/travelgenie_ai/node_modules/react-router-dom/dist'
+
+webpack compiled with 9 errors
+Compiling...
+Failed to compile.
+
+Attempted import error: 'BrowserRouter' is not exported from 'react-router-dom' (imported as 'BrowserRouter').
+ERROR in ./src/App.js 16:30-43
+export 'BrowserRouter' (imported as 'BrowserRouter') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 24:39-45
+export 'Routes' (imported as 'Routes') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 25:42-47
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 36:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 47:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 58:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/components/Navbar.js 60:57-64
+export 'NavLink' (imported as 'NavLink') was not found in 'react-router-dom' (module has no exports)
+
+webpack compiled with 7 errors
+Compiling...
+Failed to compile.
+
+Attempted import error: 'BrowserRouter' is not exported from 'react-router-dom' (imported as 'BrowserRouter').
+ERROR in ./src/App.js 16:30-43
+export 'BrowserRouter' (imported as 'BrowserRouter') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 24:39-45
+export 'Routes' (imported as 'Routes') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 25:42-47
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 36:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 47:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/App.js 58:41-46
+export 'Route' (imported as 'Route') was not found in 'react-router-dom' (module has no exports)
+
+ERROR in ./src/components/Navbar.js 60:57-64
+export 'NavLink' (imported as 'NavLink') was not found in 'react-router-dom' (module has no exports)
+
+webpack compiled with 7 errors
